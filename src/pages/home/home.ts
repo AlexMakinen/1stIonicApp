@@ -5,25 +5,25 @@ import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'page-home',
-  templateUrl: 'home.html'
+  templateUrl: 'home.html',
 })
-
 export class HomePage {
-  pictures: Pic[];
+  picArray: Pic[];
+  configUrl = 'https://media.mw.metropolia.fi/wbma';
 
+  constructor(
+    public navCtrl: NavController,
+    public http: HttpClient) {
 
-  constructor(public navCtrl: NavController, private http: HttpClient) {
+  }
+
+  getData() {
+    return this.http.get<Pic[]>(this.configUrl + '/media');
   }
 
   ngOnInit() {
-    this.getImages();
-  }
-
-  getImages() {
-    this.http.get<Pic[]>('assets/test.json').subscribe(data => {
-      this.pictures = data;
-      console.log(this.pictures);
-      
+    this.getData().subscribe((data: Pic[]) => {
+      this.picArray = data;
     });
   }
 }
